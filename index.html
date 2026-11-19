@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#edf4b9">
+<meta name="description" content="Instant price calculator for Amazon listing images, A+ Content and Amazon Storefront design services.">
+<title>Amazon Design Price Calculator</title>
+<style>
+:root{--ink:#43263f;--muted:#877985;--cream:#fbf4ee;--paper:#fffdfa;--lime:#edf4b9;--purple:#d8c1fa;--purple-deep:#63305e;--pink:#d44cbd;--line:#eadfd9;--green:#16845e}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--lime);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:-22vh -18vw;pointer-events:none;opacity:.38;background:radial-gradient(ellipse at 25% 25%,transparent 0 34%,#d2dfa1 34.2% 42%,transparent 42.2%),radial-gradient(ellipse at 80% 70%,transparent 0 38%,#d2dfa1 38.2% 46%,transparent 46.2%);z-index:-1}
+header{max-width:1080px;margin:auto;padding:34px 24px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:22px;font-weight:800;letter-spacing:-.8px}.brand span{font-weight:500;color:#8d6688}.eyebrow{font-size:11px;letter-spacing:1.6px;color:#77734e;font-weight:700}
+main{max-width:1080px;margin:0 auto;padding:12px 20px 56px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:22px;align-items:start}
+.panel,.summary{background:var(--cream);border:1px solid rgba(255,255,255,.8);border-radius:24px;box-shadow:0 18px 50px #59622a1c;padding:24px}
+h1{font-size:clamp(25px,4vw,38px);line-height:1.08;letter-spacing:-1.3px;margin:0 0 8px} .intro{color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 24px}
+.service{border-top:1px solid var(--line);padding:20px 0}.service:first-of-type{border-top:0;padding-top:0}.service-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}
+.service-title{font-size:18px;font-weight:750;letter-spacing:-.3px}.service-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.toggle{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:650;white-space:nowrap}.toggle input{width:18px;height:18px;accent-color:var(--pink)}
+.field{margin:14px 0}.field label,.field-label{display:block;font-size:13px;font-weight:650;margin-bottom:8px}
+.hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.45}
+input[type=number],input[type=text],select{width:100%;border:1px solid #eee4de;border-radius:12px;background:white;padding:12px 13px;color:var(--ink);font:inherit;font-size:14px;outline:none}
+input:focus,select:focus{border-color:#c98bc7;box-shadow:0 0 0 3px #d44cbd1a}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.checkline{display:flex;align-items:flex-start;gap:10px;background:#eee5f7;padding:12px;border-radius:13px;font-size:13px;line-height:1.4}.checkline input{accent-color:var(--pink);width:17px;height:17px;margin:1px 0 0}
+.segment{display:flex;gap:7px;flex-wrap:wrap}.segment label{border:1px solid #eadfe8;background:#fff;border-radius:10px;padding:9px 13px;font-size:13px;cursor:pointer}.segment input{accent-color:var(--pink);margin-right:5px}
+.page-card{background:#fffdfa;border:1px solid #eee5df;border-radius:14px;padding:13px;margin:10px 0}.page-top{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:10px}.page-controls{display:grid;grid-template-columns:1.2fr .8fr;gap:10px}.remove{border:0;background:transparent;color:#a04c76;font-size:12px;cursor:pointer}
+.add{border:1px dashed #c8a8c8;background:transparent;color:var(--purple-deep);border-radius:12px;padding:11px;width:100%;font-weight:700;cursor:pointer}
+.summary{position:sticky;top:18px;background:#fbf4ee}.pricebox{background:var(--purple);border-radius:18px;padding:20px 18px;margin:14px 0 20px;position:relative;overflow:hidden}.pricebox:after{content:"$";position:absolute;right:15px;top:-24px;font-size:150px;font-weight:800;color:#fff;opacity:.17;pointer-events:none}.price-label{font-size:12px;color:#735b78;font-weight:650}.total{font-size:clamp(36px,5vw,48px);letter-spacing:-2px;font-weight:750;line-height:1.2;margin:4px 0}.discount-pill{display:inline-block;background:#fff9;border-radius:30px;padding:6px 10px;font-size:11px;font-weight:750;color:#64305e}
+.summary h2{font-size:17px;margin:18px 0 12px}.line{display:flex;justify-content:space-between;gap:14px;font-size:13px;margin:12px 0}.line span:first-child{color:#786b75}.line strong{font-variant-numeric:tabular-nums}.rule{border:0;border-top:1px solid var(--line);margin:15px 0}.grand{font-size:15px;font-weight:800}.grand strong{font-size:21px;color:#5d2858}
+.breakdown-note{font-size:11px;color:var(--muted);line-height:1.5;margin-top:14px}
+button.primary{width:100%;border:0;border-radius:13px;background:var(--pink);color:white;padding:14px;font:inherit;font-size:14px;font-weight:750;cursor:pointer;margin-top:14px;box-shadow:0 7px 18px #d44cbd35}button.primary:hover{filter:brightness(.96)}button:disabled{opacity:.45;cursor:not-allowed}
+button:focus-visible{outline:3px solid #7c4b83;outline-offset:3px}
+.currency{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:10px}.currency select{width:auto;padding:7px 9px}
+footer{text-align:center;padding:0 20px 28px;color:#77734e;font-size:11px}
+@media(max-width:800px){main{grid-template-columns:1fr;max-width:650px}.summary{position:static;grid-row:1}header{padding:24px 20px 12px}.panel,.summary{padding:20px}}
+@media(max-width:430px){.two,.page-controls{grid-template-columns:1fr}.service-head{align-items:flex-start}.toggle{font-size:12px}.panel,.summary{border-radius:19px;padding:17px}}
+</style>
+</head>
+<body>
+<header><div class="brand">Amazon <span>Calculator</span></div><div class="eyebrow">DESIGN SERVICES · INSTANT ESTIMATE</div></header>
+<main>
+<section class="panel">
+  <h1>Build your Amazon design package.</h1>
+  <p class="intro">Select the services you need and customise your project. Your estimate updates automatically as you make changes.</p>
+
+  <section class="service" id="listing-service">
+    <div class="service-head"><div><div class="service-title">01. Listing Images</div><div class="service-sub">Professional product listing visuals</div></div><label class="toggle"><input id="listing-enabled" type="checkbox" checked> Include</label></div>
+    <div id="listing-fields">
+      <div class="two">
+        <div class="field"><label for="listing-products">Number of products</label><input id="listing-products" type="number" min="1" max="100" value="1"></div>
+        <div class="field"><label for="listing-images">Images per product</label><select id="listing-images"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option></select></div>
+      </div>
+      <div class="field"><label for="listing-variations">Variations per product</label><input id="listing-variations" type="number" min="1" max="50" value="1"><div class="hint">One variation is included in the product price. Only additional variations are charged.</div></div>
+      <label class="checkline"><input id="outline" type="checkbox"><span><strong>I will provide outline content for images</strong><br><span class="hint">Get 20% off Listing Images design.</span></span></label>
+    </div>
+  </section>
+
+  <section class="service" id="aplus-service">
+    <div class="service-head"><div><div class="service-title">02. A+ Content / EBC</div><div class="service-sub">Enhanced brand content design</div></div><label class="toggle"><input id="aplus-enabled" type="checkbox" checked> Include</label></div>
+    <div id="aplus-fields">
+      <div class="field"><span class="field-label">Choose content package</span><div class="segment">
+        <label><input type="radio" name="aplus-type" value="basic"> Basic <strong>$25</strong></label>
+        <label><input type="radio" name="aplus-type" value="premium" checked> Premium <strong>$35</strong></label>
+      </div></div>
+      <div class="two">
+        <div class="field"><label for="aplus-products">Number of products</label><input id="aplus-products" type="number" min="1" max="100" value="1"></div>
+        <div class="field"><label for="aplus-variations">Variations per product</label><input id="aplus-variations" type="number" min="1" max="50" value="1"></div>
+      </div>
+      <div class="hint">One variation is included in the per-product price. Each additional variation is $8.</div>
+    </div>
+  </section>
+
+  <section class="service" id="storefront-service">
+    <div class="service-head"><div><div class="service-title">03. Amazon Storefront</div><div class="service-sub">Custom brand storefront design</div></div><label class="toggle"><input id="store-enabled" type="checkbox" checked> Include</label></div>
+    <div id="store-fields">
+      <div class="checkline"><span><strong>$80 base package</strong><br><span class="hint">Includes up to 4 pages and 6 modules per page. Start with 3 suggested pages below.</span></span></div>
+      <div id="pages"></div>
+      <button type="button" class="add" id="add-page">+ Add another page</button>
+    </div>
+  </section>
+</section>
+
+<aside class="summary">
+  <div class="currency"><span>Estimate currency</span><select id="currency"><option value="USD">USD ($)</option><option value="PKR">PKR (₨)</option></select></div>
+  <div class="price-label">Your estimated investment</div>
+  <div class="pricebox"><div class="total" id="total">$0</div><span class="discount-pill" id="discount-pill">Choose a service</span></div>
+  <h2>Price breakdown</h2>
+  <div id="breakdown"><div class="line"><span>Select a service to begin</span><strong>--</strong></div></div>
+  <hr class="rule">
+  <div class="line"><span>Subtotal</span><strong id="subtotal">$0</strong></div>
+  <div class="line"><span>Bundle discount</span><strong id="discount" style="color:var(--green)">-$0</strong></div>
+  <hr class="rule">
+  <div class="line grand"><span>Estimated total</span><strong id="grand-total">$0</strong></div>
+  <button class="primary" id="copy-quote" type="button">Copy price estimate</button>
+  <div class="breakdown-note">This is an estimated design quote. Final pricing may vary depending on project scope, content requirements and asset complexity. Currency conversion is illustrative and can be adjusted in the source code.</div>
+</aside>
+</main>
+<footer>AMAZON DESIGN PRICE CALCULATOR · INSTANT PROJECT ESTIMATE</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (value,min,max) => Math.min(max,Math.max(min,Number(value)||min));
+const state = {pages:[{name:"Home Page",modules:6},{name:"Product Page",modules:6},{name:"About Page",modules:6}]};
+const USD_TO_PKR = 280;
+const money = amount => {
+  const currency = $("currency").value;
+  return currency === "PKR"
+    ? "₨" + Math.round(amount * USD_TO_PKR).toLocaleString("en-US")
+    : "$" + amount.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+};
+const safeText = value => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function renderPages(){
+  $("pages").innerHTML = state.pages.map((page,index)=>`
+    <div class="page-card" data-index="${index}">
+      <div class="page-top"><span>Page ${index+1}</span>${state.pages.length>1?`<button type="button" class="remove" data-remove="${index}">Remove</button>`:""}</div>
+      <div class="page-controls">
+        <div><label for="page-name-${index}" class="field-label">Page name</label><input type="text" id="page-name-${index}" data-name="${index}" value="${safeText(page.name)}" maxlength="60"></div>
+        <div><label for="page-modules-${index}" class="field-label">Modules</label><input type="number" id="page-modules-${index}" data-modules="${index}" min="1" max="30" value="${page.modules}"></div>
+      </div>
+      <div class="hint">${page.modules<=6?"Included in base package":(page.modules-6)+" extra module(s), $3 each"}</div>
+    </div>`).join("");
+}
+function calculate(){
+  const listingOn=$("listing-enabled").checked, aplusOn=$("aplus-enabled").checked, storeOn=$("store-enabled").checked;
+  $("listing-fields").style.display=listingOn?"":"none";
+  $("aplus-fields").style.display=aplusOn?"":"none";
+  $("store-fields").style.display=storeOn?"":"none";
+  let listing=0,aplus=0,store=0,rows=[];
+  if(listingOn){
+    const products=clamp($("listing-products").value,1,100), images=clamp($("listing-images").value,1,8), variations=clamp($("listing-variations").value,1,50);
+    $("listing-products").value=products; $("listing-variations").value=variations;
+    const base=30+20*(products-1);
+    const imageExtras=Math.max(0,images-5)*3*products;
+    const variationExtras=Math.max(0,variations-1)*8*products;
+    listing=(base+imageExtras+variationExtras)*($("outline").checked?.8:1);
+    rows.push(["Listing Images",listing]);
+  }
+  if(aplusOn){
+    const products=clamp($("aplus-products").value,1,100), variations=clamp($("aplus-variations").value,1,50);
+    $("aplus-products").value=products; $("aplus-variations").value=variations;
+    const type=document.querySelector('input[name="aplus-type"]:checked').value;
+    aplus=products*((type==="premium"?35:25)+Math.max(0,variations-1)*8);
+    rows.push([type==="premium"?"Premium A+ Content":"Basic A+ Content",aplus]);
+  }
+  if(storeOn){
+    const extraPages=Math.max(0,state.pages.length-4)*20;
+    const extraModules=state.pages.reduce((sum,page)=>sum+Math.max(0,page.modules-6)*3,0);
+    store=80+extraPages+extraModules;
+    rows.push(["Storefront Design",store]);
+  }
+  const selected=[listingOn,aplusOn,storeOn].filter(Boolean).length;
+  const subtotal=listing+aplus+store, rate=selected===3?.20:selected===2?.08:0, savings=subtotal*rate, total=subtotal-savings;
+  $("total").textContent=money(total); $("subtotal").textContent=money(subtotal);
+  $("discount").textContent="-"+money(savings); $("grand-total").textContent=money(total);
+  $("discount-pill").textContent=selected===0?"Choose a service":rate===.2?"20% bundle discount":rate===.08?"8% bundle discount":"No bundle discount";
+  $("breakdown").innerHTML=rows.length?rows.map(([label,value])=>`<div class="line"><span>${label}</span><strong>${money(value)}</strong></div>`).join(""):`<div class="line"><span>Select a service to begin</span><strong>--</strong></div>`;
+  $("copy-quote").disabled=selected===0;
+  window.currentQuote={rows,subtotal,rate,savings,total,selected};
+}
+function quoteText(){
+  const q=window.currentQuote,cur=$("currency").value;
+  const details=[];
+  if($("listing-enabled").checked)details.push(`Listing Images: ${$("listing-products").value} product(s), ${$("listing-images").value} images each, ${$("listing-variations").value} variation(s) each, outline content: ${$("outline").checked?"Yes":"No"}`);
+  if($("aplus-enabled").checked)details.push(`A+ Content: ${document.querySelector('input[name="aplus-type"]:checked').value}, ${$("aplus-products").value} product(s), ${$("aplus-variations").value} variation(s) each`);
+  if($("store-enabled").checked)details.push("Storefront pages:\n"+state.pages.map((p,i)=>`${i+1}. ${p.name} (${p.modules} modules)`).join("\n"));
+  return ["AMAZON DESIGN PRICE ESTIMATE","",...details,"",`Subtotal: ${money(q.subtotal)}`,`Bundle discount: ${Math.round(q.rate*100)}% (${money(q.savings)})`,`Estimated total: ${money(q.total)}`,`Currency: ${cur}`,"","This is an estimated design quote."].join("\n");
+}
+document.addEventListener("input",e=>{
+  if(e.target.dataset.name!==undefined){state.pages[Number(e.target.dataset.name)].name=e.target.value;}
+  if(e.target.dataset.modules!==undefined){state.pages[Number(e.target.dataset.modules)].modules=clamp(e.target.value,1,30);e.target.value=state.pages[Number(e.target.dataset.modules)].modules;renderPages();}
+  calculate();
+});
+document.addEventListener("change",calculate);
+$("add-page").addEventListener("click",()=>{if(state.pages.length<12){state.pages.push({name:"New Page",modules:6});renderPages();calculate();}});
+$("pages").addEventListener("click",e=>{const index=e.target.dataset.remove;if(index!==undefined){state.pages.splice(Number(index),1);renderPages();calculate();}});
+$("copy-quote").addEventListener("click",async()=>{
+  try{await navigator.clipboard.writeText(quoteText());$("copy-quote").textContent="Estimate copied!";setTimeout(()=>$("copy-quote").textContent="Copy price estimate",1600);}
+  catch{const area=document.createElement("textarea");area.value=quoteText();document.body.appendChild(area);area.select();document.execCommand("copy");area.remove();$("copy-quote").textContent="Estimate copied!";setTimeout(()=>$("copy-quote").textContent="Copy price estimate",1600);}
+});
+renderPages();calculate();
+</script>
+</body>
+</html>
